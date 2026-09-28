@@ -68,3 +68,78 @@ class Model(Estimator, ABC):
         """
         self.fit(dataset)
         return self.predict(dataset)
+    @abstractmethod
+    def _score(self, dataset, predictions):
+        """
+        Calculate the error metric between the true and predicted target values.
+        Abstract method that needs to be implemented by all subclasses.
+
+        Parameters
+        ----------
+        dataset: Dataset
+            The dataset to compute the error metric on.
+        predictions: np.ndarray
+            The predicted target values.
+
+        Returns
+        -------
+        error: float
+            The error metric.
+        """
+
+    def score(self, dataset):
+        """
+        Compute the error metric between the true and predicted target values.
+        The model needs to be fitted before calling this method.
+
+        Parameters
+        ----------
+        dataset: Dataset
+            The dataset to compute the error metric on.
+
+        Returns
+        -------
+        error: float
+            The error metric.
+        """
+        if not self.is_fitted:
+            raise ValueError('Model needs to be fitted before calling score()')
+        predictions = self._predict(dataset)
+        return self._score(dataset, predictions)
+    def _score(self, dataset, predictions):
+        """
+        Calculate the error metric between the true and predicted target values.
+        Abstract method that needs to be implemented by all subclasses.
+
+        Parameters
+        ----------
+        dataset: Dataset
+            The dataset to compute the error metric on.
+        predictions: np.ndarray
+            The predicted target values.
+
+        Returns
+        -------
+        error: float
+            The error metric.
+        """
+
+    def score(self, dataset):
+        """
+        Compute the error metric between the true and predicted target values.
+        The model needs to be fitted before calling this method.
+
+        Parameters
+        ----------
+        dataset: Dataset
+            The dataset to compute the error metric on.
+
+        Returns
+        -------
+        error: float
+            The error metric.
+        """
+        if not self.is_fitted:
+            raise ValueError('Model needs to be fitted before calling score()')
+        predictions = self._predict(dataset)
+        return self._score(dataset, predictions)
