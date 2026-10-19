@@ -16,3 +16,16 @@ def read_csv(filename, sep=",", features=False, label=False):
         label_name = None
 
     return Dataset(X, y, features=feature_names, label=label_name)
+
+def write_csv(filename, dataset, sep=",", features=False, label=False):
+    data = dataset.X.copy()
+    columns = list(dataset.features) if features and dataset.features is not None else None
+
+    if label and dataset.y is not None:
+        import numpy as np
+        data = np.column_stack((data, dataset.y))
+        if columns is not None:
+            columns = columns + [dataset.label]
+
+    df = pd.DataFrame(data, columns=columns)
+    df.to_csv(filename, sep=sep, index=False, header=features)
